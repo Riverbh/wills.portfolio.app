@@ -2,12 +2,14 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const nodemailer = require('nodemailer')
+const cors = require('cors')
 const { error } = require('console')
 
 const app = express()
 const port = process.env.PORT || 3000
 
 //Body parser middleware to parse from data 
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 
@@ -20,6 +22,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+//API endpoints for handling form submissions
 app.post('/submit', (req, res) => {
     const { firstName, lastName, email, subject, message } = req.body;
 

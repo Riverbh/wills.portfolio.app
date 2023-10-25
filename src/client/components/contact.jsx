@@ -1,29 +1,106 @@
-import React from "react";
+import React, { Component } from "react";
+import axios from "axios";
 
-const Contact = () => {
+class Contact extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstName: "",
+      lastName: "",
+      email: "",
+      subject: "",
+      message: "",
+    };
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Send form data to the server
+    axios
+      .post('/submit', this.state)
+      .then((response) => {
+        if (response.status === 200) {
+          alert('Form submitted successfully');
+          // Optionally, reset the form fields
+          this.setState({
+            firstName: '',
+            lastName: '',
+            email: '',
+            subject: '',
+            message: '',
+          });
+        }
+      })
+      .catch((error) => {
+        alert('An error occurred while submitting the form');
+        console.error(error);
+      });
+  };
+
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  render() {
     return (
-        <section>
-            <h1>Contact Will for future porjects</h1>
-            <form action="/submit" method="post">
-                <label for="firstName">First Name:</label>
-                <input type="text" id="firstName" name="firstName" required />
-                
-                <label for="lastName">Last Name:</label>
-                <input type="text" id="lastName" name="lastName" required />
-
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required />
-
-                <label for="subject">Subject:</label>
-                <input type="text" id="subject" name="subject" required />
-
-                <label for="message">Message:</label>
-                <textarea id="message" name="message" rows="4" required></textarea>
-
-                <input type="submit" value="Submit" />
-            </form>
-        </section>
-    )
+      <div>
+        <h2>Contact Us</h2>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            First Name:
+            <input
+              type="text"
+              name="firstName"
+              value={this.state.firstName}
+              onChange={this.handleChange}
+              required
+            />
+          </label>
+          <label>
+            Last Name:
+            <input
+              type="text"
+              name="lastName"
+              value={this.state.lastName}
+              onChange={this.handleChange}
+              required
+            />
+          </label>
+          <label>
+            Email:
+            <input
+              type="email"
+              name="email"
+              value={this.state.email}
+              onChange={this.handleChange}
+              required
+            />
+          </label>
+          <label>
+            Subject:
+            <input
+              type="text"
+              name="subject"
+              value={this.state.subject}
+              onChange={this.handleChange}
+              required
+            />
+          </label>
+          <label>
+            Message:
+            <textarea
+              name="message"
+              value={this.state.message}
+              onChange={this.handleChange}
+              required
+            />
+          </label>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    );
+  }
 }
 
-export default Contact
+export default Contact;
