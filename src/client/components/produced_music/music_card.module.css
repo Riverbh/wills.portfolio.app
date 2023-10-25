@@ -1,0 +1,9 @@
+div {
+    background-color: black;
+    /* padding-top: 15px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    min-height: 25vh;
+}
