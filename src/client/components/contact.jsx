@@ -3,12 +3,12 @@ import emailjs from '@emailjs/browser';
 
 const Contact = () => {
 
-  const form = useRef()
+  const form = useRef();
 
   const sendEmail = (e) => {
     e.preventDefault();
 
-    emailjs.sendForm('service_34qewrx', 'template_d9wt3uk', form.current, 'w8q4DxDU9-lZcVbn1')
+    emailjs.sendForm('service_xe3qcy5', 'template_kbyhour', form.current, 'w8q4DxDU9-lZcVbn1')
       .then((result) => {
           console.log(result.text);
       }, (error) => {
@@ -34,3 +34,35 @@ const Contact = () => {
 }
 
 export default Contact
+
+// import React, { useRef } from 'react';
+// import emailjs from '@emailjs/browser';
+
+//  const Contact = () => {
+//   const form = useRef();
+
+//   const sendEmail = (e) => {
+//     e.preventDefault();
+
+//     emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_PUBLIC_KEY')
+//       .then((result) => {
+//           console.log(result.text);
+//       }, (error) => {
+//           console.log(error.text);
+//       });
+//   };
+
+//   return (
+//     <form ref={form} onSubmit={sendEmail}>
+//       <label>Name</label>
+//       <input type="text" name="user_name" />
+//       <label>Email</label>
+//       <input type="email" name="user_email" />
+//       <label>Message</label>
+//       <textarea name="message" />
+//       <input type="submit" value="Send" />
+//     </form>
+//   );
+// };
+
+// export default Contact
