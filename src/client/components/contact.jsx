@@ -1,106 +1,36 @@
-import React, { Component } from "react";
-import axios from "axios";
+import React, { useRef } from "react";
+import emailjs from '@emailjs/browser';
 
-class Contact extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstName: "",
-      lastName: "",
-      email: "",
-      subject: "",
-      message: "",
-    };
-  }
+const Contact = () => {
 
-  handleSubmit = (e) => {
+  const form = useRef()
+
+  const sendEmail = (e) => {
     e.preventDefault();
 
-    // Send form data to the server
-    axios
-      .post('/submit', this.state)
-      .then((response) => {
-        if (response.status === 200) {
-          alert('Form submitted successfully');
-          // Optionally, reset the form fields
-          this.setState({
-            firstName: '',
-            lastName: '',
-            email: '',
-            subject: '',
-            message: '',
-          });
-        }
-      })
-      .catch((error) => {
-        alert('An error occurred while submitting the form');
-        console.error(error);
+    emailjs.sendForm('service_34qewrx', 'template_d9wt3uk', form.current, 'w8q4DxDU9-lZcVbn1')
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
       });
+      e.target.reset()
   };
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-
-  render() {
-    return (
-      <div>
-        <h2>Contact Us</h2>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            First Name:
-            <input
-              type="text"
-              name="firstName"
-              value={this.state.firstName}
-              onChange={this.handleChange}
-              required
-            />
-          </label>
-          <label>
-            Last Name:
-            <input
-              type="text"
-              name="lastName"
-              value={this.state.lastName}
-              onChange={this.handleChange}
-              required
-            />
-          </label>
-          <label>
-            Email:
-            <input
-              type="email"
-              name="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-              required
-            />
-          </label>
-          <label>
-            Subject:
-            <input
-              type="text"
-              name="subject"
-              value={this.state.subject}
-              onChange={this.handleChange}
-              required
-            />
-          </label>
-          <label>
-            Message:
-            <textarea
-              name="message"
-              value={this.state.message}
-              onChange={this.handleChange}
-              required
-            />
-          </label>
-          <button type="submit">Submit</button>
+  return (
+    <section>
+      <div className="container">
+        <h2 className="--text-center">Contact Will</h2>
+        <form ref={form} onSubmit={sendEmail} className="--form-control --card --flex-center --dir-column" >
+          <input type="text" placeholder="Full Name" name="user_name" required />
+          <input type="email" placeholder="Email" name="user_email" required />
+          <input type="text" placeholder="Subject" name="subject" required />
+          <textarea name="message" cols={30} rows={10}></textarea>
+          <button type="submit" className="--btn --btn-primary">Send Message</button>
         </form>
       </div>
-    );
-  }
+    </section>
+  )
 }
 
-export default Contact;
+export default Contact
